@@ -1,0 +1,38 @@
+body,
+html,
+#root {
+  height: 100%;
+  width: 100%;
+  font-family: 'Nunito';
+  font-weight: 600;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.tick line {
+  stroke: #c0c0bb;
+}
+
+.tick text {
+  fill: #635f5d;
+}
+
+.mark {
+  fill: #137b80;
+}
+
+.mark.selected { 
+  fill:#1a63ad;
+}
+
+text.mark-label {
+  fill: white;
+  font-weight: 500;
+}
+
+.chart-title {
+  font-size: 2em;
+}
