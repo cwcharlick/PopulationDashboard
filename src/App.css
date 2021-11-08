@@ -24,8 +24,8 @@ html,
   fill: #137b80;
 }
 
-.mark.selected { 
-  fill:#1a63ad;
+.mark.selected {
+  fill: #1a63ad;
 }
 
 text.mark-label {
@@ -35,4 +35,12 @@ text.mark-label {
 
 .chart-title {
   font-size: 2em;
+}
+g.tick {
+  transition: transform 0.5s ease;
+}
+
+.kpi-figure {
+  font-size: 50px;
+  fill: rgb(49, 128, 49);
 }

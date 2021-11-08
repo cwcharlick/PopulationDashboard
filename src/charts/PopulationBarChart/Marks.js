@@ -11,7 +11,7 @@ export const Marks = ({
 }) => {
   return data.map((d) => (
     <g
-      key={xValue(d)}
+      key={d.Country}
       transform={`translate(${xScale(xValue(d))},0)`}
       className="tick"
     >
@@ -27,7 +27,7 @@ export const Marks = ({
         width={xScale.bandwidth()}
         height={Math.floor(yScale(parseInt(yValue(d))))}
         className="mark"
-        style={{fill: `#${d.color}`}}
+        style={{ fill: `#${d.color}` }}
       />
       <MarkValueLabel
         yValue={yValue}
