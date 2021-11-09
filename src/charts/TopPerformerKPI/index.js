@@ -1,27 +1,23 @@
 import React, { useContext, useMemo } from 'react';
 import { DashboardContext } from '../../contexts/dashboard';
 import { useGlobalPop } from '../../hooks/useGlobalPop';
-import { ToolTip } from '../../utils/ToolTip';
+import { useTopTen } from '../../hooks/useTopTen';
 
-export const YoyKPI = ({ rawData }) => {
-  const {year, setToolTip} = useContext(DashboardContext);
-
+export const TopPerformerKPI = ({ rawData }) => {
+  const {year} = useContext(DashboardContext);
 
   const displayYear = year.hover ? year.hover : year.selected;
-  const prevYear = displayYear === 1950? 1950 : displayYear - 1;
+  const prevYear = displayYear === 1950 ? 1950 : displayYear - 1;
 
-  const data = useGlobalPop(rawData);
+  if(!rawData)return <pre>Loading...</pre>;
+  const data = rawData;
 
-  if (!data) return <pre>Loading...</pre>;
+  data.forEach((d) => d.yoy = 100 / parseInt(d[prevYear]) * parseInt(d[displayYear]) - 100 );
+  data.sort((a,b) => b.yoy - a.yoy)
 
-  const prevPop = parseInt(data.find((y) => y.Year === prevYear).Population);
-  const currPop = parseInt(data.find((y) => y.Year === displayYear).Population);
+  const kpiValue = data[0].Country;
 
-  const kpiValue = (
-    (100 / prevPop) *
-      currPop -
-    100
-  ).toPrecision(3);
+  const valueFontSize = kpiValue.length > 8 ? (50 / (kpiValue.length / 8)): 50;
 
   const width = 300;
   const height = 180;
@@ -32,10 +28,8 @@ export const YoyKPI = ({ rawData }) => {
   // domain: data space (min - max values)
   // range: screen space (pixels)
 
-  const toolTipContent = <>{displayYear} Population: {currPop.toLocaleString()}<br />Up by: {(currPop - prevPop).toLocaleString()}</>;
-
   return (
-    <svg width={width} height={height} onMouseOver={()=>setToolTip({title: "YoY Growth", content: toolTipContent})} onMouseOut={()=>setToolTip(undefined)}  >
+    <svg width={width} height={height}>
       <g transform={`translate(${margin.left}, ${margin.top})`} className="kpi">
         <text
           x={innerWidth / 2}
@@ -43,16 +37,17 @@ export const YoyKPI = ({ rawData }) => {
           textAnchor="middle"
           className="chart-title"
         >
-          YoY Growth
+          Top YoY Growth %
         </text>
         <text
           x={innerWidth / 2}
-          y={innerHeight / 2 + margin.top / 2}
+          y={innerHeight / 2 + valueFontSize / 2 }
           transform={`translate(${-30},0)`}
           textAnchor="middle"
           className="kpi-figure"
+          style={{fontSize: `${valueFontSize}px`}}
         >
-          {kpiValue + '%'}
+          {kpiValue}
         </text>
 
         <polygon

@@ -1,5 +1,4 @@
 import { useState, useMemo } from 'react';
-import { csv } from 'd3';
 
 export const useGlobalPop = (rawData) => {
   // yScale allows me to scale figures if the dataset's unit !== 1

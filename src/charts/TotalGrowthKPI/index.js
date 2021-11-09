@@ -1,25 +1,20 @@
 import React, { useContext, useMemo } from 'react';
 import { DashboardContext } from '../../contexts/dashboard';
 import { useGlobalPop } from '../../hooks/useGlobalPop';
-import { ToolTip } from '../../utils/ToolTip';
 
-export const YoyKPI = ({ rawData }) => {
-  const {year, setToolTip} = useContext(DashboardContext);
-
+export const TotalGrowthKPI = ({ rawData }) => {
+  const {year} = useContext(DashboardContext);
 
   const displayYear = year.hover ? year.hover : year.selected;
-  const prevYear = displayYear === 1950? 1950 : displayYear - 1;
+  const prevYear = 1950;
 
   const data = useGlobalPop(rawData);
 
   if (!data) return <pre>Loading...</pre>;
 
-  const prevPop = parseInt(data.find((y) => y.Year === prevYear).Population);
-  const currPop = parseInt(data.find((y) => y.Year === displayYear).Population);
-
   const kpiValue = (
-    (100 / prevPop) *
-      currPop -
+    (100 / parseInt(data.find((y) => y.Year === prevYear).Population)) *
+      parseInt(data.find((y) => y.Year === displayYear).Population) -
     100
   ).toPrecision(3);
 
@@ -32,10 +27,8 @@ export const YoyKPI = ({ rawData }) => {
   // domain: data space (min - max values)
   // range: screen space (pixels)
 
-  const toolTipContent = <>{displayYear} Population: {currPop.toLocaleString()}<br />Up by: {(currPop - prevPop).toLocaleString()}</>;
-
   return (
-    <svg width={width} height={height} onMouseOver={()=>setToolTip({title: "YoY Growth", content: toolTipContent})} onMouseOut={()=>setToolTip(undefined)}  >
+    <svg width={width} height={height}>
       <g transform={`translate(${margin.left}, ${margin.top})`} className="kpi">
         <text
           x={innerWidth / 2}
@@ -43,7 +36,7 @@ export const YoyKPI = ({ rawData }) => {
           textAnchor="middle"
           className="chart-title"
         >
-          YoY Growth
+          Growth from 1950
         </text>
         <text
           x={innerWidth / 2}

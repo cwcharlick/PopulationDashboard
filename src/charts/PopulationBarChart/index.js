@@ -3,12 +3,12 @@ import { useTopTen } from '../../hooks/useTopTen';
 import { AxisLeft } from './AxisLeft';
 import { Marks } from './Marks';
 import React, { useContext, useMemo } from 'react';
-import { YearContext } from '../../year';
+import { DashboardContext } from '../../contexts/dashboard';
 
 
 export const PopulationBarChart = ({rawData}) => {
 
-  const [year, setYear] = useContext(YearContext);
+  const {year, setYear} = useContext(DashboardContext);
 
   const yColumn = year.hover ? `${year.hover}` : `${year.selected}`;
   const xColumn = 'Country';
@@ -18,6 +18,8 @@ export const PopulationBarChart = ({rawData}) => {
   const data = useTopTen(rawData, yValue, yColumn);
 
   if (!data) return <pre>Loading...</pre>;
+  
+  data.length = 10;
   const yMax = data.reduce(
     (acc, d) => (parseInt(yValue(d)) > acc ? parseInt(yValue(d)) : acc),
     0
@@ -39,15 +41,15 @@ export const PopulationBarChart = ({rawData}) => {
   // range: screen space (pixels)
 
   return (
-    <svg width={width} height={height} style={{ border: '1px solid black' }}>
-      <g transform={`translate(${margin.left}, ${margin.top})`}>
+    <svg width={width} height={height}>
+      <g transform={`translate(${margin.left}, ${margin.top})`} className="bar-chart">
         <text
           x={innerWidth / 2}
           transform={`translate(0,${-margin.top / 4})`}
           textAnchor="middle"
           className="chart-title"
         >
-          Population in {yColumn}
+          Most Populous Countries
         </text>
         <AxisLeft
           yScale={yScale}

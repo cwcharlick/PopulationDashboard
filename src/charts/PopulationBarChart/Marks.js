@@ -13,7 +13,7 @@ export const Marks = ({
     <g
       key={d.Country}
       transform={`translate(${xScale(xValue(d))},0)`}
-      className="tick"
+      className="tick bar"
     >
       <MarkAxisLabel
         xScale={xScale}

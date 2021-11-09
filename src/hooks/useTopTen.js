@@ -11,7 +11,6 @@ export const useTopTen = (rawData, yValue) => {
       rawData.sort((a, b) => yValue(b) - yValue(a));
       
       const topTen = [...rawData];
-      topTen.length = 10;
 
       setData(topTen);
   

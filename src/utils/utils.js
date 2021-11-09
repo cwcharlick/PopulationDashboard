@@ -7,3 +7,4 @@ export function valueToLabel(n) {
   if (v < 1000000) return `${v / 1000}m`;
    return `${v / 1000000}b`;
 }
+

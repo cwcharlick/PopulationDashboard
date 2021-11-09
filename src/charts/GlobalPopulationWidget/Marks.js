@@ -1,6 +1,6 @@
 
 import React, { useContext } from 'react';
-import { YearContext } from '../../year';
+import { DashboardContext } from '../../contexts/dashboard';
 
 export const Marks = ({
   yScale,
@@ -9,7 +9,7 @@ export const Marks = ({
   data,
 }) => {
   
-  const [year, setYear] = useContext(YearContext);
+  const {year, setYear} = useContext(DashboardContext);
   return data.map((d) => 
     {
     return <g

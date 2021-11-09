@@ -1,34 +1,29 @@
-// import { PieChart } from './charts/PieChart';
-import React, { useState, useEffect } from 'react';
-import { YearProvider } from './year';
-import { PopulationBarChart } from './charts/PopulationBarChart/';
-import { GlobalPopulationWidget } from './charts/GlobalPopulationWidget/';
-import { YoyKPI } from './charts/YoyKPI';
-import { csv } from 'd3';
+
+import { DashboardProvider } from './contexts/dashboard';
+import { GlobalPopulation } from './dashboards/GlobalPopulation';
+
 import './App.css';
-
-const csvUrl =
-  'https://gist.githubusercontent.com/cwcharlick/a2763cf244996e42efbb651a1918f539/raw/ed1ca5e40a639804018d4995a8e33c8da091d01c/WorldPopulation.csv';
-
 function App() {
-  const [rawData, setRawData] = useState();
-
-  useEffect(() => {
-    csv(csvUrl).then((data) => {
-      // assign each country a random color
-      data.forEach(
-        (d) => (d.color = Math.floor(Math.random() * 16777215).toString(16))
-      );
-      setRawData(data);
-    });
-  }, []);
+  
 
   return (
-    <YearProvider>
-      <YoyKPI rawData={rawData} />
-      <PopulationBarChart rawData={rawData} />
-      <GlobalPopulationWidget rawData={rawData} />
-    </YearProvider>
+    <div className="page">
+      <nav>
+        <img src="https://d33wubrfki0l68.cloudfront.net/d44ced5032e91f413d47138a1f9107f2b3a90543/da230/assets/svg/logo-primary.svg" style={{width:96, marginTop: 30}}/>
+        <ul>
+          <li>Help</li>
+          <li>Dashboards</li>
+          <li>Global Population</li>
+          <li>Tools</li>
+          <li>Touchplan</li>
+          </ul>
+      </nav>
+      <div className="content">
+        <DashboardProvider>
+          <GlobalPopulation />
+        </DashboardProvider>
+      </div>
+    </div>
   );
 }
 

@@ -1,10 +1,10 @@
 body,
-html,
-#root {
+html, #root, .page  {
   height: 100%;
   width: 100%;
-  font-family: 'Nunito';
-  font-weight: 600;
+  font-family: Graphik, "Helvetica Neue";
+  font-weight: 400;
+  background-color: #fff;
 }
 * {
   margin: 0;
@@ -12,20 +12,57 @@ html,
   box-sizing: border-box;
 }
 
+.page {
+  display: flex;
+  flex-direction: row;
+}
+.content {
+  position: relative;
+  max-height: 100%;
+  overflow: auto;
+}
+
+nav {
+  min-height: 100%;
+  min-width: 300px;
+  background-color: #fff;
+  margin-right: 50px;
+  text-align: center;
+  border-right: 3px solid #445a7d;
+}
+
+
+nav ul {
+  margin-top:50px;
+  margin-left: 30px;
+  list-style-type: none;
+  text-align: left;
+
+}
+
 .tick line {
-  stroke: #c0c0bb;
+  stroke: #cfe9ff;
 }
 
 .tick text {
   fill: #635f5d;
 }
+.bar-chart .tick rect{
+  transition: stroke-opacity 0.3s ease;
+  stroke: #0096ff;
+  stroke-width: 6px;
+  stroke-opacity: 0;
+}
+.bar-chart .tick:hover rect{
+  stroke-opacity: 1;
+}
 
 .mark {
-  fill: #137b80;
+  fill: #cfe9ff;
 }
 
 .mark.selected {
-  fill: #1a63ad;
+  fill: #0096ff;
 }
 
 text.mark-label {
@@ -34,13 +71,67 @@ text.mark-label {
 }
 
 .chart-title {
-  font-size: 2em;
+  font-size: 36px;
+  fill: #36476c;
 }
-g.tick {
+
+.kpi .chart-title {
+  font-size: 18px;
+}
+.bar-chart g.tick.bar {
   transition: transform 0.5s ease;
 }
 
 .kpi-figure {
   font-size: 50px;
-  fill: rgb(49, 128, 49);
+  fill: #1cc691;
+}
+
+.kpi polygon { 
+  fill: #1cc691;
+}
+
+svg {
+  cursor: help;
+  background-color: #fafafa;
+  border:1px solid #f2f2f2;
+  margin: 15px;
+  transition: box-shadow 0.3s ease, border-color 0.3s ease
+}
+svg:hover {
+  border-color: #0096ff;
+}
+
+.widget-label {
+  fill: #36476c;
+  font-size: 24px
+
+}
+
+.widget .tick{
+  cursor: pointer
+}
+
+.dashboard {
+  width: 990px;
+}
+h1 {
+  text-align: center;
+  font-size: 36px;
+  line-height: 2em;
+  color: #36476c;
+}
+
+.zoom {
+  position:absolute;
+  z-index: 1000;
+  top: 20px;
+  left: 15px
+}
+
+.tooltip {
+  background-color: white;
+  padding:20px;
+  border: 2px solid #445a7d;
+  box-shadow: 1px 1px 5px #0008;
 }
