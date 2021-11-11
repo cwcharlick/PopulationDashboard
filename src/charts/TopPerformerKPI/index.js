@@ -1,23 +1,27 @@
-import React, { useContext, useMemo } from 'react';
-import { DashboardContext } from '../../contexts/dashboard';
-import { useGlobalPop } from '../../hooks/useGlobalPop';
-import { useTopTen } from '../../hooks/useTopTen';
+import React, { useContext } from 'react';
+import { AppContext } from '../../contexts/AppContext';
+import { DashboardContext } from '../../contexts/DashboardContext';
+import { valueToLabel } from '../../utils/utils';
 
 export const TopPerformerKPI = ({ rawData }) => {
-  const {year} = useContext(DashboardContext);
+  const { year } = useContext(DashboardContext);
+  const { setToolTip } = useContext(AppContext);
 
   const displayYear = year.hover ? year.hover : year.selected;
   const prevYear = displayYear === 1950 ? 1950 : displayYear - 1;
 
-  if(!rawData)return <pre>Loading...</pre>;
+  if (!rawData) return <pre>Loading...</pre>;
   const data = rawData;
 
-  data.forEach((d) => d.yoy = 100 / parseInt(d[prevYear]) * parseInt(d[displayYear]) - 100 );
-  data.sort((a,b) => b.yoy - a.yoy)
+  data.forEach(
+    (d) =>
+      (d.yoy = (100 / parseInt(d[prevYear])) * parseInt(d[displayYear]) - 100)
+  );
+  data.sort((a, b) => b.yoy - a.yoy);
 
   const kpiValue = data[0].Country;
 
-  const valueFontSize = kpiValue.length > 8 ? (50 / (kpiValue.length / 8)): 50;
+  const valueFontSize = kpiValue.length > 8 ? 50 / (kpiValue.length / 8) : 50;
 
   const width = 300;
   const height = 180;
@@ -28,8 +32,29 @@ export const TopPerformerKPI = ({ rawData }) => {
   // domain: data space (min - max values)
   // range: screen space (pixels)
 
+  const toolTipContent = (
+    <>
+      {displayYear} population:{' '}
+      <span className="accent">
+        {valueToLabel(parseInt(data[0][displayYear]))}
+      </span>
+      <br />
+      Up by: <span className="accent">{data[0].yoy.toPrecision(3)}%</span>
+    </>
+  );
+
   return (
-    <svg width={width} height={height}>
+    <svg
+      width={width}
+      height={height}
+      onMouseOver={() =>
+        setToolTip({
+          title: 'Top YoY Growth %',
+          content: toolTipContent,
+        })
+      }
+      onMouseOut={() => setToolTip(undefined)}
+    >
       <g transform={`translate(${margin.left}, ${margin.top})`} className="kpi">
         <text
           x={innerWidth / 2}
@@ -41,11 +66,11 @@ export const TopPerformerKPI = ({ rawData }) => {
         </text>
         <text
           x={innerWidth / 2}
-          y={innerHeight / 2 + valueFontSize / 2 }
+          y={innerHeight / 2 + valueFontSize / 2}
           transform={`translate(${-30},0)`}
           textAnchor="middle"
           className="kpi-figure"
-          style={{fontSize: `${valueFontSize}px`}}
+          style={{ fontSize: `${valueFontSize}px` }}
         >
           {kpiValue}
         </text>

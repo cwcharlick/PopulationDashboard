@@ -1,3 +1,23 @@
+import { useEffect, useState } from 'react';
+
 export const ToolTip = (props) => {
-    return <div className="tooltip" style={{position: "absolute", left: props.left - 280, top: props.top + 20}}><h2>{props.title}</h2>{props.children}</div>
-}
+  const [content, setContent] = useState({ children: '', title: '' });
+
+  useEffect(() => {
+    props.title && setContent({ children: props.children, title: props.title });
+  }, [props]);
+
+  return (
+    <div
+      id="tooltip"
+      className="tooltip"
+      style={{
+        position: 'absolute',
+        opacity: props.visible ? 1 : 0,
+      }}
+    >
+      <h2>{content.title}</h2>
+      {content.children ? <p>{content.children}</p> : ''}
+    </div>
+  );
+};

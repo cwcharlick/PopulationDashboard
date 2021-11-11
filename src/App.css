@@ -1,8 +1,9 @@
 body,
-html, #root, .page  {
+html,
+#root {
   height: 100%;
   width: 100%;
-  font-family: Graphik, "Helvetica Neue";
+  font-family: Graphik, 'Helvetica Neue';
   font-weight: 400;
   background-color: #fff;
 }
@@ -13,6 +14,7 @@ html, #root, .page  {
 }
 
 .page {
+  min-height: 100%;
   display: flex;
   flex-direction: row;
 }
@@ -31,34 +33,31 @@ nav {
   border-right: 3px solid #445a7d;
 }
 
-
 nav ul {
-  margin-top:50px;
+  margin-top: 50px;
   margin-left: 30px;
   list-style-type: none;
   text-align: left;
-
 }
 
 .tick line {
-  stroke: #cfe9ff;
+  stroke: #fff;
+  stroke-width: 3px;
 }
 
 .tick text {
   fill: #635f5d;
 }
-.bar-chart .tick rect{
-  transition: stroke-opacity 0.3s ease;
-  stroke: #0096ff;
-  stroke-width: 6px;
-  stroke-opacity: 0;
+.bar-chart .tick rect {
+  transition: filter 0.3s ease;
+  filter: brightness(50%);
+  opacity: 0.8;
 }
-.bar-chart .tick:hover rect{
-  stroke-opacity: 1;
+.bar-chart .tick rect:hover {
+  filter: brightness(80%);
 }
-
 .mark {
-  fill: #cfe9ff;
+  fill: #fafafa;
 }
 
 .mark.selected {
@@ -66,8 +65,9 @@ nav ul {
 }
 
 text.mark-label {
-  fill: white;
-  font-weight: 500;
+  fill: #445a7d;
+  font-weight: 600;
+  pointer-events: none;
 }
 
 .chart-title {
@@ -87,16 +87,16 @@ text.mark-label {
   fill: #1cc691;
 }
 
-.kpi polygon { 
+.kpi polygon {
   fill: #1cc691;
 }
 
 svg {
   cursor: help;
-  background-color: #fafafa;
-  border:1px solid #f2f2f2;
+  background-color: #cfe9ff;
+  border: 2px solid #f2f2f2;
   margin: 15px;
-  transition: box-shadow 0.3s ease, border-color 0.3s ease
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
 }
 svg:hover {
   border-color: #0096ff;
@@ -104,34 +104,90 @@ svg:hover {
 
 .widget-label {
   fill: #36476c;
-  font-size: 24px
-
+  font-size: 24px;
 }
 
-.widget .tick{
-  cursor: pointer
+.widget .tick {
+  cursor: pointer;
 }
 
 .dashboard {
   width: 990px;
 }
-h1 {
-  text-align: center;
+h1,
+h2 {
   font-size: 36px;
   line-height: 2em;
   color: #36476c;
 }
 
+h1 {
+  text-align: center;
+}
+
+h3 {
+  font-size: 24px;
+  line-height: 1em;
+  color: #36476c;
+}
+
+.accent {
+  color: #36476c;
+  font-weight: 600;
+}
+
+#tooltip p {
+  margin: 16px 0 0;
+}
+
 .zoom {
-  position:absolute;
+  position: absolute;
   z-index: 1000;
   top: 20px;
-  left: 15px
+  left: 15px;
 }
 
 .tooltip {
   background-color: white;
-  padding:20px;
+  padding: 20px;
   border: 2px solid #445a7d;
   box-shadow: 1px 1px 5px #0008;
+  transition: opacity 0.5s ease;
+}
+
+.help {
+  margin-right: 50px;
+  margin-top: 50px;
+  max-width: 800px;
+}
+
+p {
+  margin: 1em 0;
+}
+
+.help .banner {
+  margin: 40px;
+  margin-top: 100px;
+  padding: 120px 3em 2em;
+  background-color: #cfe9ff;
+  position: relative;
+}
+
+.help .banner .chris {
+  border-radius: 50%;
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translate(-50%, -50%);
+  border: 40px solid #cfe9ff;
+}
+
+td,
+th {
+  text-align: center;
+  padding: 0 15px;
+}
+
+td.left {
+  text-align: left;
 }
