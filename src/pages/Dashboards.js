@@ -1,11 +1,22 @@
 import { DashboardProvider } from '../contexts/DashboardContext';
-import { GlobalPopulation } from '../dashboards/GlobalPopulation';
+import { GlobalPopulation } from '../dashboards/GlobalPopulation/';
+import { TouchPlan } from '../dashboards/TouchPlan';
 import { AppContext } from '../contexts/AppContext';
 import { ToolTip } from '../utils/ToolTip';
-import { useContext } from 'react';
+import { useContext, useMemo } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 export const Dashboards = () => {
+  const [searchParams] = useSearchParams();
   const { toolTip } = useContext(AppContext);
+
+  const d = searchParams.get('d');
+
+  const dashboard = useMemo(
+    () => (d === 'touchplan' ? <TouchPlan /> : <GlobalPopulation />),
+    [d]
+  );
+
   onmousemove = (e) => {
     if (!toolTip) return;
     const t = document.getElementById('tooltip');
@@ -26,9 +37,7 @@ export const Dashboards = () => {
   return (
     <>
       <div className="content">
-        <DashboardProvider>
-          <GlobalPopulation />
-        </DashboardProvider>
+        <DashboardProvider>{dashboard}</DashboardProvider>
       </div>
 
       {showToolTip}

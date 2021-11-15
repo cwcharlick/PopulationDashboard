@@ -1,22 +1,22 @@
 import React, { useContext } from 'react';
-import { AppContext } from '../../contexts/AppContext';
-import { DashboardContext } from '../../contexts/DashboardContext';
-import { useGlobalPop } from '../../hooks/useGlobalPop';
-import { valueToLabel } from '../../utils/utils';
+import { DashboardContext } from '../../../contexts/DashboardContext';
+import { AppContext } from '../../../contexts/AppContext';
+import { useGlobalPop } from '../../../hooks/useGlobalPop';
+import { valueToLabel } from '../../../utils/utils';
 
-export const TotalGrowthKPI = ({ rawData }) => {
-  const { year } = useContext(DashboardContext);
+export const YoyKPI = ({ rawData }) => {
   const { setToolTip } = useContext(AppContext);
+  const { year } = useContext(DashboardContext);
 
   const displayYear = year.hover ? year.hover : year.selected;
-  const prevYear = 1950;
+  const prevYear = displayYear === 1950 ? 1950 : displayYear - 1;
 
   const data = useGlobalPop(rawData);
 
   if (!data) return <pre>Loading...</pre>;
 
-  const currPop = data.find((y) => y.Year === displayYear).Population;
-  const prevPop = data.find((y) => y.Year === prevYear).Population;
+  const prevPop = parseInt(data.find((y) => y.Year === prevYear).Population);
+  const currPop = parseInt(data.find((y) => y.Year === displayYear).Population);
 
   const kpiValue = ((100 / prevPop) * currPop - 100).toPrecision(3);
 
@@ -25,6 +25,9 @@ export const TotalGrowthKPI = ({ rawData }) => {
   const margin = { top: 50, right: 20, bottom: 30, left: 20 };
   const innerHeight = height - margin.top - margin.bottom;
   const innerWidth = width - margin.left - margin.right;
+
+  // domain: data space (min - max values)
+  // range: screen space (pixels)
 
   const toolTipContent = (
     <>
@@ -35,19 +38,16 @@ export const TotalGrowthKPI = ({ rawData }) => {
     </>
   );
 
-  // domain: data space (min - max values)
-  // range: screen space (pixels)
-
   return (
     <svg
       width={width}
       height={height}
-      onMouseOver={() =>
+      onMouseOver={() => {
         setToolTip({
-          title: 'Growth from 1950',
+          title: 'YoY Growth',
           content: toolTipContent,
-        })
-      }
+        });
+      }}
       onMouseOut={() => setToolTip(undefined)}
     >
       <g transform={`translate(${margin.left}, ${margin.top})`} className="kpi">
@@ -57,7 +57,7 @@ export const TotalGrowthKPI = ({ rawData }) => {
           textAnchor="middle"
           className="chart-title"
         >
-          Growth from 1950
+          YoY Growth
         </text>
         <text
           x={innerWidth / 2}

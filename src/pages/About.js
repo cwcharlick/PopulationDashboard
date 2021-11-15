@@ -1,6 +1,6 @@
 import Chris from '../images/chris.jpeg';
 
-export const Help = () => {
+export const About = () => {
   return (
     <div className="help">
       <div className="banner">

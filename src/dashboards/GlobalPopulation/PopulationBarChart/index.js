@@ -1,9 +1,9 @@
 import { scaleBand, scaleLinear } from 'd3';
-import { useTopTen } from '../../hooks/useTopTen';
+import { useTopTen } from '../../../hooks/useTopTen';
 import { AxisLeft } from './AxisLeft';
 import { Marks } from './Marks';
 import React, { useContext, useMemo } from 'react';
-import { DashboardContext } from '../../contexts/DashboardContext';
+import { DashboardContext } from '../../../contexts/DashboardContext';
 
 export const PopulationBarChart = ({ rawData }) => {
   const { year } = useContext(DashboardContext);

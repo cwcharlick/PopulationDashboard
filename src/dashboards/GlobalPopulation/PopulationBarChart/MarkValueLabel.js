@@ -1,4 +1,4 @@
-import { valueToLabel } from '../../utils/utils';
+import { valueToLabel } from '../../../utils/utils';
 
 export const MarkValueLabel = ({ xScale, yScale, d, innerHeight, yValue }) => {
   return (

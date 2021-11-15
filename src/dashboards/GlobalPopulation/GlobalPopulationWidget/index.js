@@ -1,5 +1,5 @@
 import { scaleBand, scaleLinear } from 'd3';
-import { useGlobalPop } from '../../hooks/useGlobalPop';
+import { useGlobalPop } from '../../../hooks/useGlobalPop';
 import { Marks } from './Marks';
 import React from 'react';
 

@@ -1,4 +1,4 @@
-import { valueToLabel } from '../../utils/utils';
+import { valueToLabel } from '../../../utils/utils';
 
 export const AxisLeft = ({ yScale, innerHeight, innerWidth }) => {
   return yScale.ticks().map((tickValue) => {

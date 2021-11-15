@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
-import { DashboardContext } from '../../contexts/DashboardContext';
-import { AppContext } from '../../contexts/AppContext';
+import { DashboardContext } from '../../../contexts/DashboardContext';
+import { AppContext } from '../../../contexts/AppContext';
 
 export const Marks = ({ yScale, xScale, innerHeight, data }) => {
   const { year, setYear } = useContext(DashboardContext);

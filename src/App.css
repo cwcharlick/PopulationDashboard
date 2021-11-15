@@ -65,7 +65,7 @@ nav ul {
 }
 
 text.mark-label {
-  fill: #445a7d;
+  fill: #36476c;
   font-weight: 600;
   pointer-events: none;
 }
@@ -182,12 +182,73 @@ p {
   border: 40px solid #cfe9ff;
 }
 
+th {
+  color: #36476c;
+}
+
 td,
 th {
   text-align: center;
-  padding: 0 15px;
+  padding: 5px 15px;
 }
 
 td.left {
   text-align: left;
+}
+
+tr.even {
+  background-color: #cfe9ff;
+}
+
+button {
+  margin: 10px;
+  padding: 3px 10px;
+  border: 2px solid #0096ff;
+  border-radius: 3px;
+  background-color: #fff;
+  font-weight: 600;
+  color: #36476c;
+}
+
+button.selected {
+  background: #0096ff;
+  color: #fff;
+}
+
+.asdfg {
+  height: 300px;
+  width: 300px;
+  background-color: #cfe9ff;
+  margin: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.asdfg h4 {
+  font-size: 18px;
+  color: #36476c;
+  line-height: 3em;
+  text-align: center;
+}
+.top-line {
+  display: flex;
+}
+
+button {
+  cursor: pointer;
+}
+
+nav a:hover {
+  color: #0096ff;
+}
+nav a {
+  text-decoration: none;
+  color: #36476c;
+  font-weight: 600;
+}
+nav .category {
+  margin-top: 10px;
+}
+nav .child {
+  margin-left: 15px;
 }

@@ -1,11 +1,11 @@
 // import { PieChart } from './charts/PieChart';
 import React, { useState, useEffect, useContext } from 'react';
-import { DashboardContext } from '../contexts/DashboardContext';
-import { PopulationBarChart } from '../charts/PopulationBarChart';
-import { GlobalPopulationWidget } from '../charts/GlobalPopulationWidget';
-import { YoyKPI } from '../charts/YoyKPI';
-import { TotalGrowthKPI } from '../charts/TotalGrowthKPI';
-import { TopPerformerKPI } from '../charts/TopPerformerKPI';
+import { DashboardContext } from '../../contexts/DashboardContext';
+import { PopulationBarChart } from './PopulationBarChart';
+import { GlobalPopulationWidget } from './GlobalPopulationWidget';
+import { YoyKPI } from './YoyKPI';
+import { TotalGrowthKPI } from './TotalGrowthKPI';
+import { TopPerformerKPI } from './TopPerformerKPI';
 import { csv } from 'd3';
 
 const csvUrl =

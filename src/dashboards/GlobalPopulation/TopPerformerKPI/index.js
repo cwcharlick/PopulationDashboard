@@ -1,24 +1,27 @@
 import React, { useContext } from 'react';
-import { DashboardContext } from '../../contexts/DashboardContext';
-import { AppContext } from '../../contexts/AppContext';
-import { useGlobalPop } from '../../hooks/useGlobalPop';
-import { valueToLabel } from '../../utils/utils';
+import { AppContext } from '../../../contexts/AppContext';
+import { DashboardContext } from '../../../contexts/DashboardContext';
+import { valueToLabel } from '../../../utils/utils';
 
-export const YoyKPI = ({ rawData }) => {
-  const { setToolTip } = useContext(AppContext);
+export const TopPerformerKPI = ({ rawData }) => {
   const { year } = useContext(DashboardContext);
+  const { setToolTip } = useContext(AppContext);
 
   const displayYear = year.hover ? year.hover : year.selected;
   const prevYear = displayYear === 1950 ? 1950 : displayYear - 1;
 
-  const data = useGlobalPop(rawData);
+  if (!rawData) return <pre>Loading...</pre>;
+  const data = rawData;
 
-  if (!data) return <pre>Loading...</pre>;
+  data.forEach(
+    (d) =>
+      (d.yoy = (100 / parseInt(d[prevYear])) * parseInt(d[displayYear]) - 100)
+  );
+  data.sort((a, b) => b.yoy - a.yoy);
 
-  const prevPop = parseInt(data.find((y) => y.Year === prevYear).Population);
-  const currPop = parseInt(data.find((y) => y.Year === displayYear).Population);
+  const kpiValue = data[0].Country;
 
-  const kpiValue = ((100 / prevPop) * currPop - 100).toPrecision(3);
+  const valueFontSize = kpiValue.length > 8 ? 50 / (kpiValue.length / 8) : 50;
 
   const width = 300;
   const height = 180;
@@ -31,10 +34,12 @@ export const YoyKPI = ({ rawData }) => {
 
   const toolTipContent = (
     <>
-      {displayYear} Population:{' '}
-      <span className="accent">{valueToLabel(currPop)}</span>
+      {displayYear} population:{' '}
+      <span className="accent">
+        {valueToLabel(parseInt(data[0][displayYear]))}
+      </span>
       <br />
-      Up by: <span className="accent">{valueToLabel(currPop - prevPop)}</span>
+      Up by: <span className="accent">{data[0].yoy.toPrecision(3)}%</span>
     </>
   );
 
@@ -42,12 +47,12 @@ export const YoyKPI = ({ rawData }) => {
     <svg
       width={width}
       height={height}
-      onMouseOver={() => {
+      onMouseOver={() =>
         setToolTip({
-          title: 'YoY Growth',
+          title: 'Top YoY Growth %',
           content: toolTipContent,
-        });
-      }}
+        })
+      }
       onMouseOut={() => setToolTip(undefined)}
     >
       <g transform={`translate(${margin.left}, ${margin.top})`} className="kpi">
@@ -57,16 +62,17 @@ export const YoyKPI = ({ rawData }) => {
           textAnchor="middle"
           className="chart-title"
         >
-          YoY Growth
+          Top YoY Growth %
         </text>
         <text
           x={innerWidth / 2}
-          y={innerHeight / 2 + margin.top / 2}
+          y={innerHeight / 2 + valueFontSize / 2}
           transform={`translate(${-30},0)`}
           textAnchor="middle"
           className="kpi-figure"
+          style={{ fontSize: `${valueFontSize}px` }}
         >
-          {kpiValue + '%'}
+          {kpiValue}
         </text>
 
         <polygon

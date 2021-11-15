@@ -1,27 +1,24 @@
 import React, { useContext } from 'react';
-import { AppContext } from '../../contexts/AppContext';
-import { DashboardContext } from '../../contexts/DashboardContext';
-import { valueToLabel } from '../../utils/utils';
+import { AppContext } from '../../../contexts/AppContext';
+import { DashboardContext } from '../../../contexts/DashboardContext';
+import { useGlobalPop } from '../../../hooks/useGlobalPop';
+import { valueToLabel } from '../../../utils/utils';
 
-export const TopPerformerKPI = ({ rawData }) => {
+export const TotalGrowthKPI = ({ rawData }) => {
   const { year } = useContext(DashboardContext);
   const { setToolTip } = useContext(AppContext);
 
   const displayYear = year.hover ? year.hover : year.selected;
-  const prevYear = displayYear === 1950 ? 1950 : displayYear - 1;
+  const prevYear = 1950;
 
-  if (!rawData) return <pre>Loading...</pre>;
-  const data = rawData;
+  const data = useGlobalPop(rawData);
 
-  data.forEach(
-    (d) =>
-      (d.yoy = (100 / parseInt(d[prevYear])) * parseInt(d[displayYear]) - 100)
-  );
-  data.sort((a, b) => b.yoy - a.yoy);
+  if (!data) return <pre>Loading...</pre>;
 
-  const kpiValue = data[0].Country;
+  const currPop = data.find((y) => y.Year === displayYear).Population;
+  const prevPop = data.find((y) => y.Year === prevYear).Population;
 
-  const valueFontSize = kpiValue.length > 8 ? 50 / (kpiValue.length / 8) : 50;
+  const kpiValue = ((100 / prevPop) * currPop - 100).toPrecision(3);
 
   const width = 300;
   const height = 180;
@@ -29,19 +26,17 @@ export const TopPerformerKPI = ({ rawData }) => {
   const innerHeight = height - margin.top - margin.bottom;
   const innerWidth = width - margin.left - margin.right;
 
-  // domain: data space (min - max values)
-  // range: screen space (pixels)
-
   const toolTipContent = (
     <>
-      {displayYear} population:{' '}
-      <span className="accent">
-        {valueToLabel(parseInt(data[0][displayYear]))}
-      </span>
+      {displayYear} Population:{' '}
+      <span className="accent">{valueToLabel(currPop)}</span>
       <br />
-      Up by: <span className="accent">{data[0].yoy.toPrecision(3)}%</span>
+      Up by: <span className="accent">{valueToLabel(currPop - prevPop)}</span>
     </>
   );
+
+  // domain: data space (min - max values)
+  // range: screen space (pixels)
 
   return (
     <svg
@@ -49,7 +44,7 @@ export const TopPerformerKPI = ({ rawData }) => {
       height={height}
       onMouseOver={() =>
         setToolTip({
-          title: 'Top YoY Growth %',
+          title: 'Growth from 1950',
           content: toolTipContent,
         })
       }
@@ -62,17 +57,16 @@ export const TopPerformerKPI = ({ rawData }) => {
           textAnchor="middle"
           className="chart-title"
         >
-          Top YoY Growth %
+          Growth from 1950
         </text>
         <text
           x={innerWidth / 2}
-          y={innerHeight / 2 + valueFontSize / 2}
+          y={innerHeight / 2 + margin.top / 2}
           transform={`translate(${-30},0)`}
           textAnchor="middle"
           className="kpi-figure"
-          style={{ fontSize: `${valueFontSize}px` }}
         >
-          {kpiValue}
+          {kpiValue + '%'}
         </text>
 
         <polygon
