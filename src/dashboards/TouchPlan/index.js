@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { ProgressPie } from './ProgressPie';
 import { csv } from 'd3';
 import { OwnerFilter } from './OwnerFilter';

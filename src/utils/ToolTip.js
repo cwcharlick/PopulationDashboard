@@ -4,7 +4,8 @@ export const ToolTip = (props) => {
   const [content, setContent] = useState({ children: '', title: '' });
 
   useEffect(() => {
-    props.title && setContent({ children: props.children, title: props.title });
+    (props.title || props.children) &&
+      setContent({ children: props.children, title: props.title });
   }, [props]);
 
   return (
@@ -16,7 +17,7 @@ export const ToolTip = (props) => {
         opacity: props.visible ? 1 : 0,
       }}
     >
-      <h2>{content.title}</h2>
+      {content.title ? <h2>{content.title}</h2> : ''}
       {content.children ? <p>{content.children}</p> : ''}
     </div>
   );

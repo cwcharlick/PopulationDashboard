@@ -20,8 +20,8 @@ export const Dashboards = () => {
   onmousemove = (e) => {
     if (!toolTip) return;
     const t = document.getElementById('tooltip');
-    t.style.left = `${e.clientX + 20}px`;
-    t.style.top = `${e.clientY + 20}px`;
+    t.style.left = `${e.pageX + 20}px`;
+    t.style.top = `${e.pageY + 20}px`;
   };
 
   const showToolTip = (
