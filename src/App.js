@@ -30,9 +30,12 @@ function App() {
               <li>
                 <Link to="/">About</Link>
               </li>
-              <li className="category">Dashboards</li>
+              <li className="category">Reports</li>
               <li className="child">
                 <Link to="/dashboards?d=population">Global Population</Link>
+              </li>
+              <li className="child">
+                <Link to="/dashboards?d=cs">Customer Success</Link>
               </li>
               <li className="category">Tools</li>
               <li className="child">

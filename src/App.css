@@ -71,7 +71,8 @@ text.mark-label {
 }
 
 .chart-title {
-  font-size: 36px;
+  font-size: 32px;
+  font-weight: 600;
   fill: #36476c;
 }
 
@@ -148,6 +149,7 @@ h3 {
 }
 
 .tooltip {
+  pointer-events: none;
   background-color: white;
   padding: 20px;
   border: 2px solid #445a7d;
@@ -251,4 +253,11 @@ nav .category {
 }
 nav .child {
   margin-left: 15px;
+}
+
+.hover-bright {
+  transition: filter 0.3s ease;
+}
+.hover-bright:hover {
+  filter: brightness(1.2);
 }

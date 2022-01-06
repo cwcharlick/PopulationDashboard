@@ -1,5 +1,6 @@
 import { DashboardProvider } from '../contexts/DashboardContext';
 import { GlobalPopulation } from '../dashboards/GlobalPopulation/';
+import { CustomerSuccess } from '../dashboards/CustomerSuccess';
 import { TouchPlan } from '../dashboards/TouchPlan';
 import { AppContext } from '../contexts/AppContext';
 import { ToolTip } from '../utils/ToolTip';
@@ -12,10 +13,11 @@ export const Dashboards = () => {
 
   const d = searchParams.get('d');
 
-  const dashboard = useMemo(
-    () => (d === 'touchplan' ? <TouchPlan /> : <GlobalPopulation />),
-    [d]
-  );
+  const dashboard = useMemo(() => {
+    if (d === 'touchplan') return <TouchPlan />;
+    if (d === 'cs') return <CustomerSuccess />;
+    return <GlobalPopulation />;
+  }, [d]);
 
   onmousemove = (e) => {
     if (!toolTip) return;
